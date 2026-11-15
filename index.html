@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>OpenMasonry: the Craft, rebuilt in the open</title>
+<meta name="description" content="A free, open fraternity of 33 degrees of character, study and service. One member, one vote. No fees, no secret government, and every step signed by you.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OpenMasonry: the Craft, rebuilt in the open">
+<meta property="og:description" content="A free, open fraternity of 33 degrees. One member, one vote. Every step signed by you and verifiable by anyone.">
+<meta property="og:url" content="https://openmasonry.github.io/">
+<meta property="og:image" content="https://openmasonry.github.io/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://openmasonry.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cstyle%3E.b%7Bfill:%2316213A%7D@media (prefers-color-scheme:dark)%7B.b%7Bfill:%23E6EDF3%7D%7D%3C/style%3E%3Crect class='b' x='56' y='296' width='128' height='128' rx='24'/%3E%3Crect class='b' x='192' y='192' width='128' height='128' rx='24'/%3E%3Crect fill='%232FB8A5' x='328' y='88' width='128' height='128' rx='24'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#ffffff;--fg:#16213A;--muted:#5b6475;--line:#d8dee8;--accent:#2FB8A5;--card:#f5f7fa;
+  --accent-ink:#13756a;--on-accent:#0c2420;
+  --night:#16213A;--night-2:#1d2a47;--night-line:#2e3c5c;--night-fg:#E6EDF3;--night-muted:#a3aec0;--night-accent:#5fd3c2;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:72px;--s9:112px;
+  --r:10px;--r-sm:6px;--measure:62ch;
+  --sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1522;--fg:#E6EDF3;--muted:#9aa4b2;--line:#2a3447;--accent:#2FB8A5;--card:#161e2e;
+  --accent-ink:#5fd3c2;--night:#0a0f19;--night-2:#141c2c;--night-line:#26324a;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--sans);text-rendering:optimizeLegibility}
+body.locked{overflow:hidden}
+a{color:var(--accent-ink);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+code,.mono{font-family:var(--mono);font-size:.9em}
+button{font:inherit;color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 var(--s5)}
+.skip{position:absolute;left:-999px;top:var(--s3);background:var(--fg);color:var(--bg);padding:var(--s2) var(--s4);border-radius:var(--r-sm);z-index:30}
+.skip:focus{left:var(--s4)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.b{fill:currentColor}.a{fill:var(--accent)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:650;font-size:1rem;border-radius:var(--r-sm);padding:14px 22px;cursor:pointer;text-decoration:none;border:1px solid transparent;transition:transform .12s ease,filter .12s ease,border-color .12s ease}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:transparent;color:inherit;border-color:currentColor;border-color:color-mix(in srgb,currentColor 35%,transparent)}
+.btn-ghost:hover{border-color:currentColor}
+.btn svg{width:18px;height:18px;flex:none}
+.copy{font:650 .85rem var(--sans);color:var(--on-accent);background:var(--accent);border:0;border-radius:var(--r-sm);padding:8px 14px;cursor:pointer;white-space:nowrap}
+.copy:hover{filter:brightness(1.07)}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:saturate(1.3) blur(10px);-webkit-backdrop-filter:saturate(1.3) blur(10px);color:var(--night-fg);border-bottom:1px solid var(--night-line)}
+.top .wrap{display:flex;align-items:center;gap:var(--s5);height:62px}
+.brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font-weight:650;letter-spacing:-.01em;font-size:1.05rem}
+.brand svg{width:28px;height:28px}
+.top nav{margin-left:auto;display:flex;gap:var(--s5);align-items:center}
+.top nav a{color:var(--night-muted);text-decoration:none;font-size:.93rem}
+.top nav a:hover{color:var(--night-fg)}
+.top .join-btn{padding:8px 14px;font-size:.9rem}
+@media (max-width:1060px){.top nav a{display:none}}
+
+/* hero */
+.hero{background:radial-gradient(1200px 500px at 85% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--night);color:var(--night-fg);padding:var(--s8) 0 var(--s7);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:var(--s7);align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:var(--s2);font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;color:var(--night-muted);margin:0 0 var(--s4)}
+.eyebrow i{width:8px;height:8px;border-radius:2px;background:var(--accent)}
+h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.04em;margin:0 0 var(--s5);font-weight:750}
+h1 em{font-style:normal;color:var(--night-accent)}
+.lead{font-size:1.18rem;color:var(--night-muted);max-width:50ch;margin:0 0 var(--s6)}
+.lead strong{color:var(--night-fg);font-weight:600}
+.ctas{display:flex;flex-wrap:wrap;gap:var(--s3);margin-bottom:var(--s5)}
+.pledges{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);margin:0;padding:0;list-style:none;font-size:.9rem;color:var(--night-muted)}
+.pledges li{display:flex;align-items:center;gap:8px}
+.pledges li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--accent)}
+
+.climb{position:relative}
+.stairbox{position:relative}
+.climb-stair{display:flex;align-items:flex-end;gap:3px;height:330px}
+.climb-stair button{display:block;flex:1 1 0;min-width:0;padding:0;border:0;border-radius:3px 3px 1px 1px;background:color-mix(in srgb,var(--night-fg) 20%,transparent);height:calc(10% + var(--i) * 2.7%);cursor:pointer;transform-origin:bottom;transition:background .15s ease}
+.climb-stair button.craft{background:color-mix(in srgb,var(--night-fg) 72%,transparent)}
+.climb-stair button.lit{background:var(--accent)}
+.climb-stair button.alt{background:color-mix(in srgb,var(--night-fg) 30%,transparent)}
+.climb-stair button:hover,.climb-stair button:focus-visible{background:var(--night-accent)}
+@media (prefers-reduced-motion:no-preference){
+  .climb-stair button{animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 24ms + 150ms)}
+  @keyframes rise{from{transform:scaleY(.03);opacity:.2}to{transform:none;opacity:1}}
+}
+.climb-base{display:flex;justify-content:space-between;gap:var(--s3);border-top:1px solid var(--night-line);padding-top:var(--s3);margin-top:3px;font-size:.88rem;color:var(--night-muted)}
+.climb-base b{color:var(--night-fg);font-weight:650}
+.climb-base > span:last-child{white-space:nowrap}
+.you{position:absolute;left:0;bottom:calc(12.7% + 6px);display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:.8rem;color:var(--night-accent);font-weight:650;pointer-events:none}
+.you::after{content:"";width:2px;height:22px;background:var(--night-accent);margin-left:5px}
+
+/* proof strip */
+.strip{border-bottom:1px solid var(--line);background:var(--card)}
+.strip .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3) var(--s6);padding-top:var(--s4);padding-bottom:var(--s4);font-size:.93rem}
+.pulse{display:inline-flex;align-items:center;gap:var(--s2);font-weight:650}
+.pulse i{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(47,184,165,.55)}70%{box-shadow:0 0 0 9px rgba(47,184,165,0)}100%{box-shadow:0 0 0 0 rgba(47,184,165,0)}}
+.strip dl{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);margin:0}
+.strip dl div{display:flex;gap:6px;align-items:baseline}
+.strip dt{color:var(--muted)}
+.strip dd{margin:0;font-weight:650;font-variant-numeric:tabular-nums}
+.strip .more{margin-left:auto;color:var(--muted)}
+@media (max-width:900px){.strip .more{margin-left:0}}
+
+/* sections */
+section{padding:var(--s9) 0 0}
+.kicker{font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink);font-weight:700;margin:0 0 var(--s3)}
+h2{font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.1;letter-spacing:-.03em;margin:0 0 var(--s4);font-weight:750;max-width:22ch}
+.intro{color:var(--muted);font-size:1.1rem;max-width:var(--measure);margin:0 0 var(--s7)}
+h3{font-size:1.08rem;margin:0 0 var(--s1);letter-spacing:-.01em}
+
+/* why */
+.why{display:grid;grid-template-columns:5fr 7fr;gap:var(--s8);align-items:start}
+.quote{margin:var(--s6) 0 0;padding:var(--s5) 0 0;border-top:3px solid var(--accent)}
+.quote p{font-size:clamp(1.35rem,2.4vw,1.8rem);line-height:1.3;letter-spacing:-.02em;margin:0 0 var(--s3);font-weight:650}
+.quote footer{color:var(--muted);font-size:.92rem}
+.gains{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.gains li{display:grid;grid-template-columns:44px 1fr;gap:var(--s4);padding:var(--s5) 0;border-bottom:1px solid var(--line)}
+.gains .ic{width:40px;height:40px;border-radius:9px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--accent-ink)}
+.gains .ic svg{width:22px;height:22px}
+.gains p{margin:0;color:var(--muted);max-width:var(--measure)}
+.asks{margin-top:var(--s6);padding:var(--s5);border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.asks h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:var(--s3)}
+.asks ul{margin:0;padding-left:1.1em;color:var(--fg)}
+.asks li{margin:4px 0}
+
+/* join */
+.join{background:var(--night);color:var(--night-fg);margin-top:var(--s9);padding:var(--s9) 0;border-block:1px solid var(--night-line)}
+.join .kicker{color:var(--night-accent)}
+.join .intro{color:var(--night-muted)}
+.join a{color:var(--night-accent)}
+.join-grid{display:grid;grid-template-columns:7fr 5fr;gap:var(--s8);align-items:start}
+.tabs{display:flex;gap:var(--s1);margin-bottom:-1px;flex-wrap:wrap}
+.tabs button{font-weight:650;font-size:.9rem;color:var(--night-muted);background:transparent;border:1px solid transparent;border-bottom:0;border-radius:var(--r-sm) var(--r-sm) 0 0;padding:10px 16px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--night-fg);background:var(--night-2);border-color:var(--night-line)}
+.tabs button:hover{color:var(--night-fg)}
+.panel{background:var(--night-2);border:1px solid var(--night-line);border-radius:0 var(--r) var(--r) var(--r);padding:var(--s5)}
+.panel[hidden]{display:none}
+.panel p.what{margin:0 0 var(--s3);color:var(--night-muted);font-size:.93rem}
+.panel pre,.cmd pre{margin:0;font:14px/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.panel pre{margin-bottom:var(--s4);color:var(--night-fg)}
+.row{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap}
+.status{font-size:.85rem;color:var(--night-accent);min-height:1.2em}
+.join .more-agents{margin-top:var(--s5);display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center;color:var(--night-muted);font-size:.95rem}
+.join .btn-ghost{color:var(--night-fg)}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{position:relative;padding:0 0 var(--s5) 48px}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:8px;border:1px solid var(--night-line);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.steps li:not(:last-child)::after{content:"";position:absolute;left:16px;top:38px;bottom:6px;width:1px;background:var(--night-line)}
+.steps li:last-child::before{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.steps p{margin:0;color:var(--night-muted);font-size:.95rem}
+.fine{margin-top:var(--s6);font-size:.9rem;color:var(--night-muted);max-width:var(--measure)}
+
+/* degrees */
+.house{display:grid;grid-template-columns:260px 1fr;gap:var(--s6);padding:var(--s6) 0;border-top:1px solid var(--line)}
+.house:last-of-type{border-bottom:1px solid var(--line)}
+.house .deg{font:650 .8rem var(--mono);color:var(--accent-ink)}
+.house h3{font-size:1.2rem;margin:var(--s1) 0}
+.house p{margin:0;color:var(--muted);font-size:.95rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--s3);margin:0;padding:0;list-style:none}
+.dcard{width:100%;display:grid;grid-template-columns:50px 1fr;gap:var(--s3);align-items:center;text-align:left;padding:var(--s3);border-radius:var(--r);border:1px solid var(--line);background:var(--bg);cursor:pointer;transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease}
+.dcard:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 10px 24px -18px rgba(10,15,25,.6)}
+.dcard img{width:50px;height:55px;display:block}
+.dcard .t{display:block;font-weight:650;font-size:.93rem;line-height:1.25}
+.dcard .v{display:block;font-size:.82rem;color:var(--muted);margin-top:2px}
+.dcard .n{font:650 .75rem var(--mono);color:var(--muted)}
+.dcard.member{border-color:color-mix(in srgb,var(--accent) 60%,var(--line));background:color-mix(in srgb,var(--accent) 7%,var(--bg))}
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--on-accent);background:var(--accent);border-radius:4px;padding:1px 6px;margin-left:4px;vertical-align:1px}
+.disclaim{display:flex;gap:var(--s4);align-items:flex-start;margin-top:var(--s6);padding:var(--s5);border-radius:var(--r);background:var(--card);border:1px solid var(--line);max-width:880px}
+.disclaim svg{flex:none;width:30px;height:30px;margin-top:2px}
+.disclaim p{margin:0;color:var(--muted)}
+.disclaim strong{color:var(--fg)}
+
+/* project */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);counter-reset:f}
+.flow li{position:relative;padding:0 var(--s5) var(--s5) 0}
+.flow li::before{counter-increment:f;content:counter(f);display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--fg);color:var(--bg);font-weight:700;font-size:.9rem;margin-bottom:var(--s4);position:relative;z-index:1}
+.flow li:last-child::before{background:var(--accent);color:var(--on-accent)}
+.flow li::after{content:"";position:absolute;top:17px;left:34px;right:0;height:2px;background:var(--line)}
+.flow li:last-child::after{display:none}
+.flow p{margin:0;color:var(--muted);font-size:.96rem}
+.terms{display:grid;grid-template-columns:repeat(2,1fr);gap:0 var(--s7);margin:var(--s6) 0 0;border-top:1px solid var(--line)}
+.terms div{padding:var(--s5) 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:8rem 1fr;gap:var(--s4)}
+.terms dt{font-weight:650}
+.terms dd{margin:0;color:var(--muted)}
+.verify{margin-top:var(--s6);display:grid;grid-template-columns:1fr 1.2fr;gap:var(--s6);align-items:center;padding:var(--s6);border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.verify p{margin:0;color:var(--muted)}
+.term{background:var(--night);color:var(--night-fg);border-radius:var(--r);padding:var(--s5);font:13px/1.7 var(--mono);overflow-x:auto}
+.term .c{color:var(--night-muted)}.term .ok{color:var(--night-accent)}
+.term pre{margin:0;font:inherit;white-space:pre}
+
+/* custodian */
+.cust{display:grid;grid-template-columns:7fr 5fr;gap:var(--s7);align-items:start}
+.cantable{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cantable div{padding:var(--s5)}
+.cantable div+div{border-left:1px solid var(--line);background:var(--card)}
+.cantable h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:var(--s3)}
+.cantable .yes h3{color:var(--accent-ink)}
+.cantable .no h3{color:var(--muted)}
+.cantable ul{margin:0;padding-left:1.1em;font-size:.95rem}
+.cantable li{margin:4px 0}
+.ends{margin:0;padding:0;list-style:none}
+.ends li{padding:var(--s4) 0;border-bottom:1px solid var(--line);display:flex;gap:var(--s4);align-items:baseline}
+.ends li:first-child{border-top:1px solid var(--line)}
+.ends b{font-weight:750;font-size:1.2rem;letter-spacing:-.02em;min-width:5.8rem}
+.ends span{color:var(--muted);font-size:.95rem}
+.honest{margin-top:var(--s5);font-size:.95rem;color:var(--muted);border-left:3px solid var(--accent);padding-left:var(--s4)}
+
+/* library */
+.lib{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s6)}
+.lib h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:var(--s3);padding-bottom:var(--s2);border-bottom:1px solid var(--line)}
+.lib ul{list-style:none;margin:0;padding:0}
+.lib li{margin:0 0 var(--s4)}
+.lib a{font-weight:650;text-decoration:none;color:var(--fg);display:inline-flex;align-items:center;gap:6px}
+.lib a:hover{color:var(--accent-ink);text-decoration:underline}
+.lib a::after{content:"↗";font-size:.8em;color:var(--muted)}
+.lib span{display:block;color:var(--muted);font-size:.9rem;line-height:1.45}
+.lib .star a{font-size:1.05rem}
+.lib .star{padding:var(--s4);margin:0 0 var(--s4);border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+
+/* final */
+.final{margin-top:var(--s9);background:var(--night);color:var(--night-fg);padding:var(--s8) 0;border-block:1px solid var(--night-line)}
+.final .wrap{display:flex;flex-wrap:wrap;gap:var(--s5);align-items:center;justify-content:space-between}
+.final h2{margin:0;max-width:24ch}
+.final p{margin:var(--s2) 0 0;color:var(--night-muted)}
+footer.site{padding:var(--s7) 0 var(--s8);font-size:.92rem;color:var(--muted)}
+footer.site .wrap{display:grid;grid-template-columns:1fr auto;gap:var(--s5) var(--s7);align-items:start}
+footer.site nav{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5)}
+footer.site .brand{color:var(--fg)}
+footer.site p{margin:var(--s3) 0 0;max-width:60ch}
+
+/* dialogs */
+dialog{border:0;padding:0;border-radius:14px;background:var(--bg);color:var(--fg);width:min(860px,calc(100vw - 32px));max-height:calc(100vh - 48px);box-shadow:0 40px 100px -30px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(8,12,20,.62);backdrop-filter:blur(3px)}
+@media (prefers-reduced-motion:no-preference){dialog[open]{animation:pop .22s cubic-bezier(.2,.8,.2,1)}@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}}
+.dlg{display:flex;flex-direction:column;max-height:calc(100vh - 48px)}
+.dlg-head{display:flex;align-items:flex-start;gap:var(--s4);padding:var(--s5) var(--s5) var(--s4);border-bottom:1px solid var(--line)}
+.dlg-head h2{font-size:1.5rem;margin:0;max-width:none}
+.dlg-head .sub{color:var(--muted);font-size:.92rem;margin:2px 0 0}
+.x{margin-left:auto;flex:none;width:38px;height:38px;border-radius:8px;border:1px solid var(--line);background:transparent;cursor:pointer;display:grid;place-items:center}
+.x:hover{border-color:var(--fg)}
+.x svg{width:16px;height:16px}
+.dlg-body{overflow:auto;padding:var(--s5)}
+.dlg-foot{display:flex;gap:var(--s3);align-items:center;padding:var(--s4) var(--s5);border-top:1px solid var(--line);flex-wrap:wrap}
+.dlg-foot .grow{flex:1}
+
+/* agent dialog */
+.intent{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;margin-bottom:var(--s5);background:var(--card)}
+.intent button{border:0;background:transparent;border-radius:999px;padding:7px 14px;font-size:.88rem;font-weight:650;color:var(--muted);cursor:pointer}
+.intent button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.agents{display:grid;grid-template-columns:220px 1fr;gap:var(--s5)}
+.alist{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+.alist button{width:100%;text-align:left;border:1px solid transparent;background:transparent;border-radius:8px;padding:9px 12px;cursor:pointer;font-size:.93rem}
+.alist button small{display:block;color:var(--muted);font-size:.78rem}
+.alist button:hover{background:var(--card)}
+.alist button[aria-selected="true"]{background:var(--card);border-color:var(--line);font-weight:650}
+.alist button[aria-selected="true"] small{font-weight:400}
+.ahow h3{font-size:1.15rem;margin-bottom:var(--s2)}
+.ahow ol{margin:0 0 var(--s4);padding-left:1.3em;color:var(--muted)}
+.ahow ol li{margin:4px 0}
+.ahow ol strong{color:var(--fg)}
+.cmd{position:relative;background:var(--night);color:var(--night-fg);border-radius:var(--r);padding:var(--s4) var(--s5);margin:0 0 var(--s3)}
+.cmd .row{justify-content:space-between;margin-bottom:var(--s2)}
+.cmd .lbl{font-size:.78rem;color:var(--night-muted);text-transform:uppercase;letter-spacing:.08em}
+.cmd .status{font-size:.8rem}
+.ahow .tip{font-size:.9rem;color:var(--muted);margin:var(--s3) 0 0}
+.safe{display:flex;gap:var(--s3);align-items:flex-start;font-size:.88rem;color:var(--muted)}
+.safe svg{flex:none;width:18px;height:18px;color:var(--accent-ink);margin-top:2px}
+
+/* degree dialog */
+.dg-arms{width:84px;height:93px;flex:none}
+.dg-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--s2)}
+.chip{font-size:.78rem;font-weight:650;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.chip.v{color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.lesson{margin:0 0 var(--s5);font-size:1.25rem;line-height:1.4;letter-spacing:-.01em;font-weight:600;border-left:3px solid var(--accent);padding-left:var(--s4)}
+.dg-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4) var(--s6);margin:0}
+.dg-grid div{padding-top:var(--s3);border-top:1px solid var(--line)}
+.dg-grid div.wide{grid-column:1/-1}
+.dg-grid dt{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:4px}
+.dg-grid dd{margin:0}
+.dg-house{margin-top:var(--s5);font-size:.92rem;color:var(--muted)}
+.navbtn{border:1px solid var(--line);background:transparent;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.9rem;font-weight:600}
+.navbtn:hover:not(:disabled){border-color:var(--fg)}
+.navbtn:disabled{opacity:.4;cursor:default}
+
+@media (max-width:960px){
+  .hero .wrap,.why,.join-grid,.cust,.verify{grid-template-columns:1fr}
+  .why{gap:var(--s6)}
+  .climb-stair{height:220px}
+  .flow{grid-template-columns:1fr 1fr;row-gap:var(--s5)}
+  .flow li:nth-child(2)::after{display:none}
+  .lib{grid-template-columns:1fr 1fr}
+  .house{grid-template-columns:1fr;gap:var(--s4)}
+}
+@media (max-width:640px){
+  .wrap{padding:0 var(--s4)}
+  section{padding-top:var(--s8)}
+  .hero{padding-top:var(--s7)}
+  .climb-stair{height:170px;gap:2px}
+  .you{display:none}
+  .flow,.terms,.lib,.cantable,.dg-grid{grid-template-columns:1fr}
+  .flow li::after{display:none}
+  .terms div{grid-template-columns:1fr;gap:var(--s1)}
+  .cantable div+div{border-left:0;border-top:1px solid var(--line)}
+  .cards{grid-template-columns:1fr}
+  .agents{grid-template-columns:1fr}
+  .alist{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .alist button{white-space:nowrap}
+  .alist button small{display:none}
+  .join,.final{padding:var(--s8) 0}
+  footer.site .wrap{grid-template-columns:1fr}
+  dialog{width:calc(100vw - 16px);max-height:calc(100vh - 16px)}
+  .dlg{max-height:calc(100vh - 16px)}
+  .dlg-head,.dlg-body{padding:var(--s4)}
+  .dg-arms{width:56px;height:62px}
+  .dlg-foot{padding:var(--s3) var(--s4)}
+  .safe{font-size:.8rem}
+  .btn{width:100%;justify-content:center}
+  .top .join-btn{width:auto}
+  .eyebrow{font-size:.72rem}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 512 512"><rect class="b" x="56" y="296" width="128" height="128" rx="24"/><rect class="b" x="192" y="192" width="128" height="128" rx="24"/><rect class="a" x="328" y="88" width="128" height="128" rx="24"/></symbol>
+  <symbol id="i-x" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="i-term" viewBox="0 0 24 24"><path d="M4 6l6 6-6 6M12 18h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" fill="none"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg>OpenMasonry</a>
+    <nav aria-label="Main">
+      <a href="#why">Why join</a>
+      <a href="#join">How to join</a>
+      <a href="#degrees">The 33 degrees</a>
+      <a href="#project">The project</a>
+      <a href="https://github.com/openmasonry/openmasonry/blob/main/docs/whitepaper/WHITEPAPER.md">Whitepaper</a>
+      <a href="#library">Documents</a>
+      <a href="https://github.com/openmasonry/openmasonry">GitHub</a>
+      <button class="btn btn-primary join-btn" type="button" data-agents>Join</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div id="top" class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow"><i aria-hidden="true"></i>A fraternity of 33 degrees · founded 14 November 2026</p>
+      <h1>The Craft, rebuilt <em>in the open</em>.</h1>
+      <p class="lead">OpenMasonry is a fraternity for people who want to grow in <strong>character, knowledge and service</strong>, among equals. No fees. No secret government. No one above the rules, its founder included.</p>
+      <div class="ctas">
+        <button class="btn btn-primary" type="button" data-agents><svg aria-hidden="true"><use href="#i-term"/></svg>Join with your AI agent</button>
+        <a class="btn btn-ghost" href="#degrees">Explore the 33 degrees</a>
+      </div>
+      <ul class="pledges">
+        <li>Free, forever</li>
+        <li>One member, one vote</li>
+        <li>Every step signed by you</li>
+      </ul>
+    </div>
+    <div class="climb">
+      <div class="stairbox">
+        <span class="you" aria-hidden="true">You start here</span>
+        <div class="climb-stair" id="climb" aria-label="The 33 degrees. Choose one to read about it."></div>
+      </div>
+      <div class="climb-base"><span id="climb-name"><b>33 degrees, six houses.</b> Choose any block.</span><span>1° → 33°</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="strip" aria-labelledby="live-title">
+  <div class="wrap">
+    <span class="pulse" id="live-title"><i aria-hidden="true"></i>Live from the public ledger</span>
+    <dl>
+      <div><dt>entries</dt><dd data-m="height">1</dd></div>
+      <div><dt>members</dt><dd data-m="members">1</dd></div>
+      <div><dt>open ballots</dt><dd data-m="ballots">0</dd></div>
+      <div><dt>head</dt><dd class="mono" data-m="head">6a8b5a8d…</dd></div>
+    </dl>
+    <span class="more"><span data-m="time">as of 15 Nov 2026</span> · <a href="https://openmasonry.github.io/openmasonry/">Open the Observatory</a></span>
+  </div>
+</div>
+
+<section id="why" aria-labelledby="h-why">
+  <div class="wrap why">
+    <div>
+      <p class="kicker">Why people join</p>
+      <h2 id="h-why">A school for the whole of a life, where no one can take the keys.</h2>
+      <p class="intro" style="margin-bottom:0">For three centuries fraternities have taught through degrees, sponsorship and the ballot. OpenMasonry keeps that school, and removes what lets a few capture it: secret government, discretionary rules and permanent power.</p>
+      <blockquote class="quote">
+        <p>“The royal secret is that no one should hold it alone.”</p>
+        <footer>Lesson of the 32nd degree</footer>
+      </blockquote>
+    </div>
+    <div>
+      <ul class="gains">
+        <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h4v-4h4v-4h4V7h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span><div><h3>A path worth walking</h3><p>Thirty-three degrees, each with a virtue to practice, an art to study and a full public study guide. From grammar and rhetoric in the 1st to guardianship of the Constitution in the 33rd.</p></div></li>
+        <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></span><div><h3>Equals, not ranks</h3><p>Degrees grant duties, never extra votes. A Master Builder of one year and the 33rd degree carry the same single vote.</p></div></li>
+        <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg></span><div><h3>Work that outlives you</h3><p>Every degree asks for a public masterwork that improves the commons: an essay, code, a translation, a review. It stays yours, under your name, and the fraternity builds itself through it.</p></div></li>
+        <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16v10H9l-5 4z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg></span><div><h3>A lodge without gatekeepers</h3><p>Each degree has its own room for conversation and mentoring. Everything happens online, at your pace, and no meetings are required.</p></div></li>
+        <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield"/></svg></span><div><h3>Rules you can check</h3><p>Every admission, exam and vote is a signed public record. Nobody can quietly change the rules, rig a ballot or sell a rank.</p></div></li>
+      </ul>
+      <div class="asks">
+        <h3>What it asks of you</h3>
+        <ul>
+          <li>To be an adult who comes in good faith, and to sign the Landmarks.</li>
+          <li>To write, in your own words, a first public reflection.</li>
+          <li>To keep faith: with your work, with those you sponsor, and with the truth.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="join" aria-labelledby="h-join">
+  <div class="wrap join-grid">
+    <div>
+      <p class="kicker">How to join</p>
+      <h2 id="h-join">Your agent does the technical work. You keep the signature.</h2>
+      <p class="intro">All you need is a GitHub account and an AI coding agent. Copy one prompt, paste it to your agent, and it becomes your Guide: it checks your computer, prepares your key and your application, and asks before anything is published.</p>
+
+      <div class="tabs" role="tablist" aria-label="What to ask your agent">
+        <button role="tab" id="t-join" aria-controls="p-join" aria-selected="true">I want to join</button>
+        <button role="tab" id="t-learn" aria-controls="p-learn" aria-selected="false" tabindex="-1">Explain it to me first</button>
+        <button role="tab" id="t-verify" aria-controls="p-verify" aria-selected="false" tabindex="-1">Verify it myself</button>
+      </div>
+      <div class="panel" role="tabpanel" id="p-join" aria-labelledby="t-join" tabindex="0">
+        <p class="what">Paste this to any AI agent that can run commands on your computer.</p>
+        <pre id="txt-join"></pre>
+        <div class="row"><button class="copy" type="button" data-copy="txt-join">Copy prompt</button><span class="status" role="status" aria-live="polite"></span></div>
+      </div>
+      <div class="panel" role="tabpanel" id="p-learn" aria-labelledby="t-learn" tabindex="0" hidden>
+        <p class="what">No commitment: your agent reads the rules, answers your questions and signs nothing.</p>
+        <pre id="txt-learn"></pre>
+        <div class="row"><button class="copy" type="button" data-copy="txt-learn">Copy prompt</button><span class="status" role="status" aria-live="polite"></span></div>
+      </div>
+      <div class="panel" role="tabpanel" id="p-verify" aria-labelledby="t-verify" tabindex="0" hidden>
+        <p class="what">Replay the whole ledger from the first entry on your own machine. It prints <code>VALID</code>, the number of entries and the head.</p>
+        <pre id="txt-verify">git clone https://github.com/openmasonry/openmasonry
+cd openmasonry
+PYTHONPATH=src python3 -m openmasonry verify --tree</pre>
+        <div class="row"><button class="copy" type="button" data-copy="txt-verify">Copy commands</button><span class="status" role="status" aria-live="polite"></span></div>
+      </div>
+      <div class="more-agents">
+        <button class="btn btn-ghost" type="button" data-agents>Step-by-step for your agent</button>
+        <span>Claude Code, Codex, Gemini CLI, Copilot, Cursor, VS Code, Windsurf, OpenCode and more.</span>
+      </div>
+    </div>
+
+    <div>
+      <ol class="steps">
+        <li><h3>You apply</h3><p>You introduce yourself in your own words, in a public issue. It asks for no personal data and costs nothing.</p></li>
+        <li><h3>A Master Builder invites you</h3><p>A member of the 3rd degree who is ready to answer for you signs your invitation and becomes your first sponsor.</p></li>
+        <li><h3>You petition</h3><p>You sign your petition with your own SSH key. Agents only draft: you approve every signature yourself, in a system dialog built from the entry.</p></li>
+        <li><h3>The lodge votes, and you enter</h3><p>Members vote by commit and reveal. Once admitted you are an Apprentice of the Open Craft, and the path is open.</p></li>
+      </ol>
+      <p class="fine">Membership is a public roll under the name OpenMasonry. You must be an adult: 18, or the age of majority where you live, whichever is higher. An application that brings no invitation in 60 days is closed, and you may apply again.</p>
+    </div>
+  </div>
+</section>
+
+<section id="degrees" aria-labelledby="h-degrees">
+  <div class="wrap">
+    <p class="kicker">The 33 degrees</p>
+    <h2 id="h-degrees">What you learn, degree by degree.</h2>
+    <p class="intro">Six houses, from self-knowledge to the guardianship of the Constitution. Each degree names a virtue to practice, an art to study, a lesson and a masterwork. Choose any degree for its full card.</p>
+    <div id="houses"></div>
+    <div class="disclaim">
+      <svg aria-hidden="true" style="color:var(--fg)"><use href="#logo"/></svg>
+      <p><strong>Not affiliated with any grand lodge or Masonic body.</strong> OpenMasonry borrows the structure of the degrees, never any ritual. The historical names appear for reference only, and the whole teaching is public.</p>
+    </div>
+  </div>
+</section>
+
+<section id="project" aria-labelledby="h-project">
+  <div class="wrap">
+    <p class="kicker">The project</p>
+    <h2 id="h-project">An institution kept as a Git repository.</h2>
+    <p class="intro">OpenMasonry is also an open-source experiment in governance. Its state is never stored: anyone rebuilds it from one signed JSON file per event. The runtime is the Python standard library and OpenSSH, nothing else, under the MIT license.</p>
+    <ol class="flow">
+      <li><h3>Someone acts</h3><p>A member, helped by their agent, drafts one entry (a petition, a vote, an exam) and signs it with their own SSH key.</p></li>
+      <li><h3>The Tyler judges</h3><p>A pull request carries the entry. The <code>judge</code> check replays the whole ledger with the base branch's verifier, reading the pull request as data and never running it.</p></li>
+      <li><h3>The chain grows</h3><p>If the protocol allows it, the entry joins the ledger, committing to the hash of the one before. No maintainer can admit anyone by merging.</p></li>
+      <li><h3>Anyone replays</h3><p>The Observatory rebuilds the same state from scratch after every change, and so can you, offline.</p></li>
+    </ol>
+    <dl class="terms">
+      <div><dt>Ballot</dt><dd>Commit, then reveal, in fixed windows. An admission fails when black balls reach one fifth of the votes cast.</dd></div>
+      <div><dt>Lot</dt><dd>Examiners and the 33 council seats are drawn from a public drand beacon about 8 hours in the future, over a pool frozen in advance.</dd></div>
+      <div><dt>Light</dt><dd>A public score of service that fades with a half-life of 180 days. It never weighs a vote.</dd></div>
+      <div><dt>Landmarks</dt><dd>Seven principles pinned in the first entry that no ballot can ever change.</dd></div>
+      <div><dt>Rooms</dt><dd>Closed but never secret: their rules and rolls are public, and nothing said in them has force.</dd></div>
+      <div><dt>Governed files</dt><dd>The Constitution, the degree canon and the protocol core change only by amendment ballot.</dd></div>
+    </dl>
+    <div class="verify">
+      <div>
+        <h3>Do not trust us. Check.</h3>
+        <p>Three commands replay every entry since the genesis and check each signature and hash. If one byte of history changed, verification fails.</p>
+      </div>
+      <div class="term" aria-label="Example of a verification in a terminal">
+<pre><span class="c">$</span> git clone https://github.com/openmasonry/openmasonry
+<span class="c">$</span> cd openmasonry
+<span class="c">$</span> PYTHONPATH=src python3 -m openmasonry verify --tree
+<span class="ok">VALID</span> <span class="c">· OpenMasonry: entries and head of the chain</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="custodian" aria-labelledby="h-cust">
+  <div class="wrap cust">
+    <div>
+      <p class="kicker">One exception, stated openly</p>
+      <h2 id="h-cust">The Custodian can repair, never grant.</h2>
+      <p class="intro" style="margin-bottom:var(--s6)">When something goes wrong (a stolen key, a ballot captured by fraud, an attack), the ledger is never rewritten. A Custodian makes a correction: a new signed, public entry on one of four closed grounds, which Master Builders can stop by objection.</p>
+      <div class="cantable">
+        <div class="yes"><h3>A correction can</h3><ul><li>freeze a key for 30 days</li><li>stay one ballot for 14 days, once</li><li>halt the ledger for 14 days under attack</li><li>after public notice, undo a recent admission below the 3rd degree</li></ul></div>
+        <div class="no"><h3>A correction never</h3><ul><li>admits, advances or appoints anyone</li><li>changes a vote, a key or a Landmark</li><li>stops a member from leaving or voting</li><li>takes effect in secret</li></ul></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:var(--s3)">The office ends on its own</h3>
+      <ul class="ends">
+        <li><b>180 days</b><span>without a signed sign of life</span></li>
+        <li><b>7 years</b><span>at the end of its single term</span></li>
+        <li><b>Sunset</b><span>once seven active Master Builders who are not founders, and four witnesses, exist</span></li>
+        <li><b>Majority</b><span>Master Builders can remove it in a ballot no correction can touch</span></li>
+      </ul>
+      <p class="honest">Today the founder is the only Master Builder, so no one can yet object to a correction. The repository says so plainly; every new Master Builder makes the exception smaller.</p>
+    </div>
+  </div>
+</section>
+
+<section id="library" aria-labelledby="h-lib">
+  <div class="wrap">
+    <p class="kicker">Documents</p>
+    <h2 id="h-lib">Everything is written down, in public.</h2>
+    <p class="intro">The full design, the law and the teaching live in the repository as plain Markdown. Read them on GitHub, or ask your agent to walk you through them.</p>
+    <div class="lib">
+      <div>
+        <h3>Start here</h3>
+        <ul>
+          <li class="star"><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/whitepaper/WHITEPAPER.md">Whitepaper</a><span>Why OpenMasonry exists, how it works and what it refuses to become.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry#readme">README</a><span>The project on one page.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/wiki/index.md">Wiki</a><span>Plain-language pages: how to join, the member journey, comparisons.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>The law</h3>
+        <ul>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/CONSTITUTION.md">Constitution</a><span>Powers, offices, ballots, justice and amendment.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/whitepaper/SPEC.md">Specification</a><span>Every rule the verifier enforces, stated exactly.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/governance/CUSTODIAN.md">Custodian's charter</a><span>The one bounded exception, and how it ends.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/governance/ROOMS.md">Rules of the rooms</a><span>Closed, never secret: who enters and why.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>The teaching</h3>
+        <ul>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/degrees/README.md">The 33 degrees</a><span>The catalog, with every coat of arms.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/study/README.md">Study guides</a><span>Everything a candidate is examined on, degree by degree.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/whitepaper/SEALS.md">Patron Seals</a><span>A proposal for funding the Craft without selling it.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For builders and agents</h3>
+        <ul>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/AGENTS.md">For agents</a><span>How an AI agent helps a person take part.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/architecture/ARCHITECTURE.md">Architecture</a><span>The system, its boundaries and its prior art.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/ROADMAP.md">Roadmap</a><span>What comes next, in order.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/docs/operations/RECOVERY.md">Recovery</a><span>Lost keys and other bad days, step by step.</span></li>
+          <li><a href="https://github.com/openmasonry/openmasonry/blob/main/CONTRIBUTING.md">Contributing</a><span>Everyone may contribute; members' work counts as masterworks.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <div>
+      <h2>The first stone is laid. The next one could be yours.</h2>
+      <p>Free, open to every adult, and checked by anyone.</p>
+    </div>
+    <button class="btn btn-primary" type="button" data-agents><svg aria-hidden="true"><use href="#i-term"/></svg>Join with your AI agent</button>
+  </div>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg>OpenMasonry</a>
+      <p>Code under the MIT license, text under CC BY-SA 4.0. Not affiliated with any grand lodge or Masonic body.</p>
+    </div>
+    <nav aria-label="Project">
+      <a href="https://github.com/openmasonry/openmasonry">Repository</a>
+      <a href="https://openmasonry.github.io/openmasonry/">Observatory</a>
+      <a href="https://github.com/openmasonry/openmasonry/blob/main/docs/whitepaper/WHITEPAPER.md">Whitepaper</a>
+      <a href="https://github.com/openmasonry/openmasonry/blob/main/CONSTITUTION.md">Constitution</a>
+      <a href="https://github.com/openmasonry/openmasonry/blob/main/AGENTS.md">For agents</a>
+    </nav>
+  </div>
+</footer>
+
+<dialog id="dlg-agents" aria-labelledby="ag-title">
+  <div class="dlg">
+    <div class="dlg-head">
+      <div>
+        <h2 id="ag-title">Join with your AI agent</h2>
+        <p class="sub">Pick your agent. Copy, paste, and it guides you from there.</p>
+      </div>
+      <button class="x" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="dlg-body">
+      <div class="intent" role="group" aria-label="What you want">
+        <button type="button" data-intent="join" aria-pressed="true">I want to join</button>
+        <button type="button" data-intent="learn" aria-pressed="false">Explain it to me first</button>
+      </div>
+      <div class="agents">
+        <ul class="alist" role="tablist" aria-label="Agents" id="alist"></ul>
+        <div class="ahow" role="tabpanel" id="ahow" tabindex="0"></div>
+      </div>
+    </div>
+    <div class="dlg-foot">
+      <div class="safe grow"><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Your agent only drafts. Nothing is signed or published until you approve it yourself, in a system dialog; for a vote, even your agent never learns your choice.</span></div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dlg-degree" aria-labelledby="dg-title">
+  <div class="dlg">
+    <div class="dlg-head">
+      <img class="dg-arms" id="dg-arms" alt="">
+      <div>
+        <p class="sub" id="dg-kicker"></p>
+        <h2 id="dg-title"></h2>
+        <div class="dg-chips" id="dg-chips"></div>
+      </div>
+      <button class="x" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="dlg-body">
+      <p class="lesson" id="dg-lesson"></p>
+      <dl class="dg-grid" id="dg-grid"></dl>
+      <p class="dg-house" id="dg-house"></p>
+    </div>
+    <div class="dlg-foot">
+      <button class="navbtn" type="button" id="dg-prev">← Previous</button>
+      <button class="navbtn" type="button" id="dg-next">Next →</button>
+      <span class="grow"></span>
+      <a id="dg-study" href="#">Read the study guide</a>
+      <a id="dg-page" href="#">Summary page</a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  "use strict";
+  var DATA = {"houses":{"craft":{"name":"The Craft Lodge","range":[1,3],"purpose":"Self-knowledge and the tools of the work."},"perfection":{"name":"The Lodge of Perfection","range":[4,14],"purpose":"Duty, stewardship and justice inside the community."},"rose":{"name":"The Chapter of the Rose","range":[15,18],"purpose":"Rebuilding, liberty of conscience and active charity."},"kadosh":{"name":"The Council of Kadosh","range":[19,30],"purpose":"Philosophy, law, and the defense of the commons against capture."},"consistory":{"name":"The Consistory","range":[31,32],"purpose":"Audit, judgment and the balance of powers."},"council":{"name":"The Supreme Council","range":[33,33],"purpose":"Guardianship of the Constitution. Serves; never commands."}},"degrees":[{"n":1,"house":"craft","title":"Apprentice of the Open Craft","historical":"Entered Apprentice","virtue":"Humility","art":"Grammar and Rhetoric: learning to read the work and speak clearly about it","lesson":"Before you shape the stone, learn to see the stone that you are.","work":"Signed declaration of the Landmarks (the petition); after admission, a first public reflection (500+ words) at a public URL the member controls, recorded as a work entry. No examination: the admission ballot confers the degree","wait_days":0,"examiners":0,"unlocks":"Speak in the Lodge, open issues, join study circles","blazon":"Argent; on a roundel Sable, a rough ashlar Argent."},{"n":2,"house":"craft","title":"Fellow of the Open Craft","historical":"Fellowcraft","virtue":"Diligence","art":"Logic, Arithmetic and Geometry: the seven liberal arts as method","lesson":"Knowledge that is not shared is a debt, not a possession.","work":"One contribution to the commons (code, translation, essay or catalog entry), accepted by the normal review of the resource it joins, examined by two members drawn by lot","wait_days":30,"examiners":2,"unlocks":"Review Apprentice work, vote on admissions, examine candidates for the 2nd degree when drawn by lot","blazon":"Argent, a chevron Sable; on a roundel Sable, a level Argent."},{"n":3,"house":"craft","title":"Master Builder","historical":"Master Mason","virtue":"Fidelity","art":"Music and Astronomy: harmony, cycles and the measure of a life","lesson":"The temple is never finished; the builder is measured by what outlives them.","work":"A substantive masterwork (2,000+ words or equivalent work), defended before three examiners: public written questions and answers in the masterwork's public thread, never in a room","wait_days":60,"examiners":3,"unlocks":"Sponsor candidates; examine candidates for the 2nd and 3rd degrees when drawn by lot, and for any higher degree whose own members are too few; be elected to Lodge office; found a Lodge","blazon":"Azure, a chevron Or; on a roundel Or, a pair of compasses Sable."},{"n":4,"house":"perfection","title":"Keeper of Discretion","historical":"Secret Master","virtue":"Discretion","art":"Ethics of information: privacy, confidentiality and the duty of silence","lesson":"A secret that protects a person is a trust; a secret that protects power is a lie.","work":"A privacy review of one OpenMasonry process, with findings filed as issues","wait_days":180,"examiners":3,"unlocks":"Serve as a teller of sealed ballots, once encrypted ballots exist","blazon":"Sable, a pale Or; on a roundel Or, a key Sable."},{"n":5,"house":"perfection","title":"Steward of Memory","historical":"Perfect Master","virtue":"Gratitude","art":"History and archives: honoring those who built before us","lesson":"We stand on unmarked foundations; name them.","work":"An archive entry documenting a person, lodge or idea from the history of fraternal societies, with sources","wait_days":30,"examiners":3,"unlocks":"Curate the History catalog","blazon":"Sable, a fess Or; on a roundel Or, a column Sable."},{"n":6,"house":"perfection","title":"Scribe of Trust","historical":"Intimate Secretary","virtue":"Faithfulness","art":"Records and signatures: hashes, keys and the integrity of the written word","lesson":"Every record is a promise to someone who is not yet born.","work":"Independently verify the full ledger from genesis and publish the verification transcript","wait_days":30,"examiners":3,"unlocks":"Operate a witness node, once added by a witness ballot","blazon":"Azure, a pale Or; on a roundel Or, a quill Sable."},{"n":7,"house":"perfection","title":"Arbiter","historical":"Provost and Judge","virtue":"Justice","art":"Dispute resolution: hearing both sides, evidence and proportionality","lesson":"Judge the act, not the person; judge yourself first.","work":"Serve as an observer in one dispute and write a reasoned opinion","wait_days":30,"examiners":3,"unlocks":"Sit on dispute juries","blazon":"Gules, a pale Or; on a roundel Or, a balance Sable."},{"n":8,"house":"perfection","title":"Intendant of the Works","historical":"Intendant of the Building","virtue":"Diligence in service","art":"Stewardship of shared work: planning, maintenance and delegation","lesson":"A builder who will not maintain is only a visitor.","work":"Maintain one repository, catalog or study circle for 90 days","wait_days":30,"examiners":3,"unlocks":"Maintain a commons repository","blazon":"Vert, a fess Or; on a roundel Or, a plumb line Sable."},{"n":9,"house":"perfection","title":"Elect of the Nine","historical":"Elu of the Nine","virtue":"Restraint","art":"Incident response: acting under provocation without vengeance","lesson":"Zeal without restraint is the first apprentice of tyranny.","work":"Write or improve an incident-response runbook and run a tabletop exercise","wait_days":30,"examiners":3,"unlocks":"Join the incident rota","blazon":"Gules, a saltire Or; on a roundel Or, a lamp Sable."},{"n":10,"house":"perfection","title":"Elect of the Fifteen","historical":"Elu of the Fifteen","virtue":"Tolerance","art":"Moderation: protecting dialogue from fanaticism, harassment and bad faith","lesson":"Tolerate persons, never the abolition of tolerance.","work":"Moderate a public forum of OpenMasonry or another community for 60 days with a published moderation log","wait_days":30,"examiners":3,"unlocks":"Become a forum moderator","blazon":"Gules, a saltire Or; on a roundel Or, a star Sable."},{"n":11,"house":"perfection","title":"Elect of the Twelve","historical":"Elu of the Twelve","virtue":"Equity","art":"Economics of the commons: Ostrom's principles, free riding and fair burdens","lesson":"A commons dies of silence before it dies of theft.","work":"A commons-health report on one OpenMasonry resource, scored against Ostrom's eight principles","wait_days":30,"examiners":3,"unlocks":"Review proposed amendments to operational rules for their effect on the commons","blazon":"Vert, a saltire Or; on a roundel Or, a sheaf of wheat Sable."},{"n":12,"house":"perfection","title":"Master Architect","historical":"Master Architect","virtue":"Prudence","art":"System design: geometry of structures, failure modes and simplicity","lesson":"Design so that the next builder can change what you built.","work":"An architecture decision record (ADR) accepted into the canonical repository","wait_days":30,"examiners":3,"unlocks":"Review protocol-code amendments before their ballot (advisory)","blazon":"Azure, a chevron Or; on a roundel Or, a square Sable."},{"n":13,"house":"perfection","title":"Seeker of the Vault","historical":"Royal Arch of Solomon","virtue":"Perseverance","art":"Research: first principles, primary sources and the patience to dig","lesson":"What is buried is not lost to the one who keeps digging honestly.","work":"A research paper with primary sources, examined as drawn by lot","wait_days":30,"examiners":3,"unlocks":"Supervise research circles","blazon":"Or, a chief Sable; on a roundel Sable, an arch Argent."},{"n":14,"house":"perfection","title":"Perfect Elect","historical":"Perfect Elu (Grand Elect, Perfect and Sublime Mason)","virtue":"Integrity","art":"Synthesis of the Perfection: the self as the first commons","lesson":"Integrity is the same person in the dark and in the light.","work":"A public synthesis of degrees 4–13 and a service record: signed work entries or public records of service over at least 365 days","wait_days":30,"examiners":5,"unlocks":"Preside over a Lodge of Perfection","blazon":"Or, a cross Sable; on a roundel Sable, a ring Argent."},{"n":15,"house":"rose","title":"Knight of the East, the Rebuilder","historical":"Knight of the East (or of the Sword)","virtue":"Loyalty to the work","art":"Resilience: backups, mirrors, recovery and continuity","lesson":"Build with a trowel in one hand and a backup in the other.","work":"Operate a verified mirror of the canonical repository for 90 days","wait_days":180,"examiners":3,"unlocks":"Operate an official mirror","blazon":"Vert, a bend Or; on a roundel Or, a sword Sable."},{"n":16,"house":"rose","title":"Prince of the Rebuilt City","historical":"Prince of Jerusalem","virtue":"Civic courage","art":"Civic governance: assemblies, mandates and accountability","lesson":"A city is rebuilt by citizens, not by princes.","work":"Organize and document one assembly, with minutes published in the repository","wait_days":60,"examiners":3,"unlocks":"Convene assemblies","blazon":"Or, a bend Sable; on a roundel Sable, a tower Argent."},{"n":17,"house":"rose","title":"Knight of East and West","historical":"Knight of the East and West","virtue":"Universality","art":"Comparative traditions: philosophies, religions and cultures in dialogue","lesson":"No single tradition owns the light; each one carries a lamp.","work":"A comparative study across at least three traditions, published in its original language and in one translation into a second language","wait_days":60,"examiners":3,"unlocks":"Lead translation and outreach programs","blazon":"Purpure, a bend Or; on a roundel Or, the sun and the moon Sable."},{"n":18,"house":"rose","title":"Knight of the Rose","historical":"Knight Rose Croix","virtue":"Charity","art":"Active benevolence: mentoring, relief and the ethics of care","lesson":"Love that does not act is only a feeling about oneself.","work":"Mentor two Apprentices to the degree of Fellow and lead one relief action","wait_days":60,"examiners":5,"unlocks":"Preside over a Chapter of the Rose; administer the relief fund, where one exists","blazon":"Gules, a cross Or; on a roundel Or, a rose Sable."},{"n":19,"house":"kadosh","title":"Pontifex, Bridge Builder","historical":"Grand Pontiff","virtue":"Concord","art":"Federation: interoperability between Lodges, nodes and other communities","lesson":"Build bridges you are willing to cross in both directions.","work":"Federate a witness node, or a new Lodge when lodges exist, with interoperability tests","wait_days":365,"examiners":3,"unlocks":"Approve federation of new Lodges, when lodges exist","blazon":"Azure, a fess Or; on a roundel Or, a bridge Sable."},{"n":20,"house":"kadosh","title":"Master of the Symbolic Lodge","historical":"Master of the Symbolic Lodge","virtue":"Patience","art":"Pedagogy: how adults learn, and how to teach without dominating","lesson":"The master's work is complete when the apprentice no longer needs the master.","work":"Design or substantially improve one degree's study curriculum","wait_days":60,"examiners":3,"unlocks":"Author curricula; train examiners","blazon":"Azure, a chief Or; on a roundel Or, an open book Sable."},{"n":21,"house":"kadosh","title":"Noachite, Keeper of Humility","historical":"Noachite, or Prussian Knight","virtue":"Humility before the law","art":"Universal ethics and precedent: laws every person can accept","lesson":"The higher you stand, the lower the law must find you.","work":"A precedent digest: summarize up to ten rulings from the public record, or all if fewer, and the principles they set","wait_days":60,"examiners":3,"unlocks":"Maintain the book of precedents","blazon":"Sable, a chief Or; on a roundel Or, an ark Sable."},{"n":22,"house":"kadosh","title":"Knight of the Royal Axe, Dignity of Labor","historical":"Knight of the Royal Axe, or Prince of Libanus","virtue":"Respect for work","art":"Sustainability of labor: maintainers, burnout and fair recognition","lesson":"Honor the hands that cut the cedar, not only the names carved on it.","work":"A recognition audit: identify and credit uncredited contributors","wait_days":60,"examiners":3,"unlocks":"Run the contributor-recognition rota","blazon":"Vert, a pale Or; on a roundel Or, an axe Sable."},{"n":23,"house":"kadosh","title":"Chief of the Tabernacle, Servant of Rites","historical":"Chief of the Tabernacle","virtue":"Reverence","art":"Ceremony design: ritual as shared meaning and as user experience","lesson":"A rite that no longer teaches has become a costume.","work":"Write or revise an open ceremony (public, original text)","wait_days":60,"examiners":3,"unlocks":"Edit the open ritual book","blazon":"Or, a pale Sable; on a roundel Sable, a flame Argent."},{"n":24,"house":"kadosh","title":"Prince of the Tabernacle, Interpreter of Symbols","historical":"Prince of the Tabernacle","virtue":"Understanding","art":"Semiotics: symbols, allegory and their many honest readings","lesson":"A symbol is a question that each generation must answer again.","work":"Ten entries in the Symbols catalog with sources and multiple interpretations","wait_days":60,"examiners":3,"unlocks":"Curate the Symbols catalog","blazon":"Purpure, a pale Or; on a roundel Or, a triangle Sable."},{"n":25,"house":"kadosh","title":"Knight of the Brazen Serpent, the Healer","historical":"Knight of the Brazen Serpent","virtue":"Compassion","art":"Wellbeing: mental health, burnout and care inside communities","lesson":"Heal the one in front of you before you theorize about the many.","work":"Build or improve a wellbeing support process and train five members in it","wait_days":60,"examiners":3,"unlocks":"Serve as wellbeing steward","blazon":"Vert, a chevron Or; on a roundel Or, a serpent Sable."},{"n":26,"house":"kadosh","title":"Prince of Mercy","historical":"Prince of Mercy, or Scottish Trinitarian","virtue":"Mercy","art":"Restorative justice: repair, amnesty and the return of the excluded","lesson":"Justice that cannot forgive is only accounting.","work":"Facilitate one restorative process or reinstatement review","wait_days":60,"examiners":3,"unlocks":"Grant clemency petitions a hearing","blazon":"Argent, a chevron Sable; on a roundel Sable, a heart Argent."},{"n":27,"house":"kadosh","title":"Commander of the Temple","historical":"Knight Commander of the Temple","virtue":"Servant leadership","art":"Leadership: responsibility without privilege, authority without ownership","lesson":"Command is a debt you pay to those who follow.","work":"Hold an elected office for a full term with a public accountability report","wait_days":60,"examiners":3,"unlocks":"Stand for House-level office","blazon":"Gules, a cross Or; on a roundel Or, a cross potent Sable."},{"n":28,"house":"kadosh","title":"Knight of the Sun, Natural Philosopher","historical":"Knight of the Sun, or Prince Adept","virtue":"Truthfulness","art":"Science and epistemology: evidence, doubt and the limits of knowing","lesson":"Doubt is the lantern; certainty is where the lantern goes out.","work":"An evidence review that recommends changing or confirming one OpenMasonry rule (an amendment it proposes need not pass)","wait_days":60,"examiners":3,"unlocks":"Chair evidence reviews","blazon":"Or; on a roundel Sable, the sun in splendour Argent."},{"n":29,"house":"kadosh","title":"Knight of Saint Andrew, Equality","historical":"Scottish Knight of Saint Andrew","virtue":"Equality","art":"Accessibility and non-discrimination: the open door kept open","lesson":"Every locked door was once called a tradition.","work":"An accessibility and inclusion audit of the whole admission path","wait_days":60,"examiners":3,"unlocks":"Raise an equality objection: refer to the Court of Review any rule that refuses or ranks anyone for sex, gender, origin, color, belief or unbelief, class or disability","blazon":"Azure, a saltire Or; on a roundel Or, a saltire couped Sable."},{"n":30,"house":"kadosh","title":"Kadosh, Guardian against Capture","historical":"Knight Kadosh, or Knight of the White and Black Eagle","virtue":"Vigilance","art":"Adversarial thinking: security, red-teaming and the anatomy of tyranny","lesson":"Every institution is one quiet exception away from becoming what it opposed.","work":"A red-team report against the protocol with at least one fixed finding","wait_days":60,"examiners":5,"unlocks":"Join the Watch (security response team); answer capture alarms","blazon":"Party per pale, Sable and Or; on a roundel Or, an eagle Sable."},{"n":31,"house":"consistory","title":"Inspector Inquisitor, the Auditor","historical":"Inspector Inquisitor","virtue":"Impartiality","art":"Audit and judicial review: checking the powerful with their own rules","lesson":"Audit the auditors, beginning with yourself.","work":"A full annual audit of one House, published with dissent sections","wait_days":365,"examiners":5,"unlocks":"Sit on the Court of Review","blazon":"Argent, a pale Sable; on a roundel Sable, an open eye Argent."},{"n":32,"house":"consistory","title":"Master of the Royal Secret, Equilibrium","historical":"Master of the Royal Secret","virtue":"Balance","art":"Synthesis: the balance of powers and the equilibrium of opposites","lesson":"The royal secret is that no one should hold it alone.","work":"A thesis on the balance of powers in OpenMasonry, defended publicly: written questions and answers in its public thread, never in a room","wait_days":365,"examiners":7,"unlocks":"Enter the sortition pool of the Supreme Council after 730 days in the degree","blazon":"Party per saltire, Purpure and Or; on a roundel Or, a double-headed eagle Sable."},{"n":33,"house":"council","title":"Sovereign Guardian","historical":"Inspector General (honorary, conferred by a Supreme Council)","virtue":"Self-limitation","art":"Guardianship of the Constitution","lesson":"Guard the house so well that it never needs you.","work":"Not applied for. Drawn by verifiable lot from all eligible 32nd-degree members (Constitution Art. VIII)","wait_days":730,"examiners":0,"unlocks":"A three-year, non-renewable seat on the Supreme Council","blazon":"Party per saltire, Or and Sable; on a roundel Sable, a radiant delta Argent."}],"av":"da70c822a6"};
+  var REPO = "https://github.com/openmasonry/openmasonry";
+  var BLOB = REPO + "/blob/main/";
+  var PROMPT = {
+    join: "Clone " + REPO + " and follow docs/agents/START.md to help me join.",
+    learn: "Clone " + REPO + ", read README.md and AGENTS.md, and explain to me how OpenMasonry works and how someone joins. Do not sign or publish anything."
+  };
+  var INSIDE = {
+    join: "Follow docs/agents/START.md to help me join OpenMasonry.",
+    learn: "Read README.md and AGENTS.md and explain to me how OpenMasonry works and how someone joins. Do not sign or publish anything."
+  };
+  var CLONE = "git clone " + REPO + "\ncd openmasonry";
+
+  document.getElementById("txt-join").textContent = PROMPT.join;
+  document.getElementById("txt-learn").textContent = PROMPT.learn;
+
+  function ord(n) { var s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function el(tag, attrs, kids) {
+    var e = document.createElement(tag);
+    for (var k in attrs || {}) { if (k === "text") e.textContent = attrs[k]; else if (k === "html") e.innerHTML = attrs[k]; else e.setAttribute(k, attrs[k]); }
+    (kids || []).forEach(function (c) { if (c) e.appendChild(c); });
+    return e;
+  }
+  function q(s) { return "\"" + s.replace(/"/g, "\\\"") + "\""; }
+
+  /* ---------- dialogs ---------- */
+  var lastFocus = null;
+  function openDlg(d) {
+    lastFocus = document.activeElement;
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+    document.body.classList.add("locked");
+  }
+  function closeDlg(d) {
+    if (typeof d.close === "function") d.close(); else d.removeAttribute("open");
+  }
+  document.querySelectorAll("dialog").forEach(function (d) {
+    d.addEventListener("close", function () {
+      document.body.classList.remove("locked");
+      if (d.id === "dlg-degree" && location.hash.indexOf("#degree-") === 0) history.replaceState(null, "", location.pathname + location.search);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    });
+    d.addEventListener("click", function (e) { if (e.target === d) closeDlg(d); });
+    d.querySelectorAll("[data-close]").forEach(function (b) { b.addEventListener("click", function () { closeDlg(d); }); });
+  });
+
+  /* ---------- copy ---------- */
+  function copy(btn, text) {
+    var s = btn.parentNode.querySelector(".status");
+    function done(ok) {
+      var old = btn.getAttribute("data-label") || btn.textContent;
+      btn.setAttribute("data-label", old);
+      btn.textContent = ok ? "Copied" : "Select and copy";
+      if (s) s.textContent = ok ? "Copied to the clipboard." : "Copying is blocked here: select the text and copy it.";
+      clearTimeout(btn._t);
+      btn._t = setTimeout(function () { btn.textContent = old; if (s) s.textContent = ""; }, 2200);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    else done(false);
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-copy]");
+    if (b) copy(b, document.getElementById(b.getAttribute("data-copy")).textContent);
+    var c = e.target.closest("[data-copy-text]");
+    if (c) copy(c, c._text);
+  });
+
+  /* ---------- join tabs ---------- */
+  function tablist(tabs, onPick) {
+    function pick(t, focus) {
+      tabs.forEach(function (x) { var on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; });
+      onPick(t);
+      if (focus) t.focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { pick(t); });
+      t.addEventListener("keydown", function (e) {
+        var keys = {ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1};
+        if (!(e.key in keys)) return;
+        e.preventDefault();
+        pick(tabs[(keys[e.key] + tabs.length) % tabs.length], true);
+      });
+    });
+    return pick;
+  }
+  var jtabs = Array.prototype.slice.call(document.querySelectorAll("#join [role=tab]"));
+  tablist(jtabs, function (t) { jtabs.forEach(function (x) { document.getElementById(x.getAttribute("aria-controls")).hidden = x !== t; }); });
+
+  /* ---------- agents ---------- */
+  var AGENTS = [
+    {id: "claude", name: "Claude Code", kind: "terminal", run: function (p) { return "claude " + q(p); }, tip: "Inside the folder you can also type /om at any time to call the Guide."},
+    {id: "codex", name: "Codex CLI", kind: "terminal", run: function (p) { return "codex " + q(p); }},
+    {id: "gemini", name: "Gemini CLI", kind: "terminal", run: function (p) { return "gemini -i " + q(p); }},
+    {id: "copilot", name: "GitHub Copilot CLI", kind: "terminal", run: function (p) { return "copilot -i " + q(p); }},
+    {id: "opencode", name: "OpenCode", kind: "terminal", run: function (p) { return "opencode --prompt " + q(p); }},
+    {id: "cursor", name: "Cursor", kind: "editor", where: "Open the folder with File, Open Folder, then open the Agent chat."},
+    {id: "vscode", name: "VS Code + Copilot", kind: "editor", where: "Open the folder with File, Open Folder, then open Copilot Chat and switch it to Agent mode."},
+    {id: "windsurf", name: "Windsurf", kind: "editor", where: "Open the folder, then open Cascade."},
+    {id: "jetbrains", name: "JetBrains IDEs", kind: "editor", where: "Open the folder as a project, then open the AI agent chat (Junie or AI Assistant)."},
+    {id: "desktop", name: "Desktop agent apps", kind: "app", where: "In a desktop app that can work on your computer (for example the Claude or Codex apps), start a session with access to a folder of your choice."},
+    {id: "other", name: "Any other agent", kind: "app", where: "Any agent that can run commands on your computer works: open a session with access to a folder of your choice."}
+  ];
+  var KIND = {terminal: "terminal", editor: "editor", app: "any agent"};
+  var intent = "join", current = AGENTS[0];
+  var alist = document.getElementById("alist"), ahow = document.getElementById("ahow");
+  var abtns = AGENTS.map(function (a) {
+    var b = el("button", {type: "button", role: "tab", "aria-selected": "false", "aria-controls": "ahow", id: "ag-" + a.id}, [document.createTextNode(a.name), el("small", {text: KIND[a.kind]})]);
+    b._agent = a;
+    alist.appendChild(el("li", {role: "presentation"}, [b]));
+    return b;
+  });
+  function cmdBlock(label, text) {
+    var b = el("button", {type: "button", "class": "copy", "data-copy-text": ""}, []);
+    b.textContent = "Copy";
+    b._text = text;
+    b.setAttribute("aria-label", "Copy: " + label);
+    return el("div", {"class": "cmd"}, [
+      el("div", {"class": "row"}, [el("span", {"class": "lbl", text: label}), el("span", {"class": "status", role: "status", "aria-live": "polite"}), b]),
+      el("pre", {text: text})
+    ]);
+  }
+  function renderAgent() {
+    var a = current;
+    ahow.innerHTML = "";
+    ahow.setAttribute("aria-labelledby", "ag-" + a.id);
+    ahow.appendChild(el("h3", {text: a.name}));
+    if (a.kind === "terminal") {
+      ahow.appendChild(el("ol", {}, [
+        el("li", {html: "Open a terminal and go to the folder where you keep projects."}),
+        el("li", {html: "Run these commands. The last one starts " + a.name + " inside the repository with the right request."})
+      ]));
+      ahow.appendChild(cmdBlock("Commands", CLONE + "\n" + a.run(INSIDE[intent])));
+      ahow.appendChild(el("p", {"class": "tip", text: (a.tip ? a.tip + " " : "") + "Already inside a session? Paste the one-line prompt below instead."}));
+      ahow.appendChild(cmdBlock("One-line prompt", PROMPT[intent]));
+    } else if (a.kind === "editor") {
+      ahow.appendChild(el("ol", {}, [
+        el("li", {html: "Clone the repository in a terminal, or with your editor's <strong>Clone repository</strong> command."}),
+        el("li", {text: a.where}),
+        el("li", {html: "Paste the request below and send it."})
+      ]));
+      ahow.appendChild(cmdBlock("Clone", CLONE));
+      ahow.appendChild(cmdBlock("Request for the agent", INSIDE[intent]));
+      ahow.appendChild(el("p", {"class": "tip", text: "No terminal at hand? Paste the one-line prompt into the agent chat of any open folder, and the agent clones it for you:"}));
+      ahow.appendChild(cmdBlock("One-line prompt", PROMPT[intent]));
+    } else {
+      ahow.appendChild(el("ol", {}, [
+        el("li", {text: a.where}),
+        el("li", {html: "Paste this prompt. The agent clones the repository and becomes your Guide."})
+      ]));
+      ahow.appendChild(cmdBlock("One-line prompt", PROMPT[intent]));
+    }
+  }
+  var pickAgent = tablist(abtns, function (t) { current = t._agent; renderAgent(); });
+  document.querySelectorAll("[data-intent]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      intent = b.getAttribute("data-intent");
+      document.querySelectorAll("[data-intent]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+      renderAgent();
+    });
+  });
+  pickAgent(abtns[0]);
+  var dAgents = document.getElementById("dlg-agents");
+  document.querySelectorAll("[data-agents]").forEach(function (b) { b.addEventListener("click", function () { openDlg(dAgents); }); });
+
+  /* ---------- degrees ---------- */
+  var degs = DATA.degrees, houses = DATA.houses, total = 0;
+  degs.forEach(function (d) { total += d.wait_days; d.from = total; });
+  var dDeg = document.getElementById("dlg-degree"), shown = 1;
+  function line(dt, dd, wide) { return el("div", wide ? {"class": "wide"} : {}, [el("dt", {text: dt}), el("dd", {text: dd})]); }
+  function fmt(n) { return n.toLocaleString("en-US"); }
+  function showDegree(n, push) {
+    var d = degs[n - 1], h = houses[d.house];
+    shown = n;
+    var img = document.getElementById("dg-arms");
+    img.src = "arms/degree-" + pad(n) + ".svg?v=" + DATA.av;
+    img.alt = "Coat of arms of the " + ord(n) + " degree";
+    document.getElementById("dg-kicker").textContent = ord(n) + " degree · " + h.name;
+    document.getElementById("dg-title").textContent = d.title;
+    var chips = document.getElementById("dg-chips");
+    chips.innerHTML = "";
+    chips.appendChild(el("span", {"class": "chip v", text: "Virtue: " + d.virtue}));
+    if (n === 3) chips.appendChild(el("span", {"class": "chip", text: "Full membership"}));
+    if (n === 33) chips.appendChild(el("span", {"class": "chip", text: "By lot, never applied for"}));
+    document.getElementById("dg-lesson").textContent = "“" + d.lesson + "”";
+    var g = document.getElementById("dg-grid");
+    g.innerHTML = "";
+    g.appendChild(line("What you study", d.art, true));
+    g.appendChild(line("Your masterwork", d.work, true));
+    g.appendChild(line("What it opens", d.unlocks, true));
+    g.appendChild(line("Time", n === 1 ? "Conferred by the admission ballot." : "At least " + fmt(d.wait_days) + " days in the previous degree; at least " + fmt(d.from) + " days from admission."));
+    g.appendChild(line("Examiners", d.examiners ? d.examiners + " drawn by verifiable lot" : (n === 1 ? "None: the ballot admits you" : "None")));
+    g.appendChild(line("Historical reference", d.historical + " (Scottish Rite, reference only)", true));
+    g.appendChild(line("Arms", d.blazon, true));
+    document.getElementById("dg-house").textContent = h.name + ": " + h.purpose;
+    document.getElementById("dg-study").href = BLOB + "docs/study/degree-" + pad(n) + ".md";
+    document.getElementById("dg-page").href = BLOB + "docs/degrees/degree-" + pad(n) + ".md";
+    document.getElementById("dg-prev").disabled = n === 1;
+    document.getElementById("dg-next").disabled = n === 33;
+    if (push !== false) history.replaceState(null, "", "#degree-" + n);
+    if (!dDeg.open) openDlg(dDeg);
+  }
+  document.getElementById("dg-prev").addEventListener("click", function () { if (shown > 1) showDegree(shown - 1); });
+  document.getElementById("dg-next").addEventListener("click", function () { if (shown < 33) showDegree(shown + 1); });
+  dDeg.addEventListener("keydown", function (e) {
+    if (e.target.closest && e.target.closest("a,button") && e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    if (e.key === "ArrowLeft" && shown > 1) showDegree(shown - 1);
+    if (e.key === "ArrowRight" && shown < 33) showDegree(shown + 1);
+  });
+
+  var wrapH = document.getElementById("houses");
+  Object.keys(houses).forEach(function (id) {
+    var h = houses[id], r = h.range;
+    var cards = el("ul", {"class": "cards"});
+    degs.filter(function (d) { return d.house === id; }).forEach(function (d) {
+      var b = el("button", {type: "button", "class": "dcard" + (d.n === 3 ? " member" : ""), "aria-haspopup": "dialog"}, [
+        el("img", {src: "arms/degree-" + pad(d.n) + ".svg?v=" + DATA.av, alt: "", loading: "lazy", width: "50", height: "55"}),
+        el("span", {}, [
+          el("span", {"class": "n", text: ord(d.n) + " degree"}),
+          el("span", {"class": "t", html: ""}),
+          el("span", {"class": "v", text: d.virtue})
+        ])
+      ]);
+      b.querySelector(".t").textContent = d.title;
+      if (d.n === 3) b.querySelector(".t").appendChild(el("span", {"class": "badge", text: "Member"}));
+      b.addEventListener("click", function () { showDegree(d.n); });
+      cards.appendChild(el("li", {}, [b]));
+    });
+    wrapH.appendChild(el("div", {"class": "house"}, [
+      el("div", {}, [
+        el("span", {"class": "deg", text: r[0] === r[1] ? r[0] + "°" : r[0] + "° to " + r[1] + "°"}),
+        el("h3", {text: h.name}),
+        el("p", {text: h.purpose})
+      ]),
+      cards
+    ]));
+  });
+
+  var climb = document.getElementById("climb"), cname = document.getElementById("climb-name");
+  var idle = cname.innerHTML;
+  degs.forEach(function (d) {
+    var b = el("button", {type: "button", "aria-label": ord(d.n) + " degree: " + d.title, "aria-haspopup": "dialog"});
+    b.style.setProperty("--i", d.n);
+    var cls = d.n <= 3 ? "craft" : d.n === 33 ? "lit" : "";
+    var hi = Object.keys(houses).indexOf(d.house);
+    if (d.n > 3 && d.n < 33 && hi % 2 === 0) cls += " alt";
+    b.className = cls.trim();
+    function hint() { cname.innerHTML = ""; cname.appendChild(el("b", {text: ord(d.n) + "°"})); cname.appendChild(document.createTextNode(" " + d.title + " · " + d.virtue)); }
+    b.addEventListener("mouseenter", hint);
+    b.addEventListener("focus", hint);
+    b.addEventListener("mouseleave", function () { cname.innerHTML = idle; });
+    b.addEventListener("blur", function () { cname.innerHTML = idle; });
+    b.addEventListener("click", function () { showDegree(d.n); });
+    climb.appendChild(b);
+  });
+
+  var m = /^#degree-(\d{1,2})$/.exec(location.hash);
+  if (m && +m[1] >= 1 && +m[1] <= 33) showDegree(+m[1], false);
+
+  /* ---------- live numbers ---------- */
+  fetch("/openmasonry/metrics.json", {cache: "no-store"}).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (x) {
+    if (!x || x.schema !== "om.metrics/1") return;
+    function put(k, v) { var e = document.querySelector('[data-m="' + k + '"]'); if (e && v != null) e.textContent = v; }
+    put("height", String(x.chain.height));
+    put("members", String(x.members.of_record));
+    put("ballots", String(x.ballots.open));
+    put("head", String(x.chain.head).slice(0, 8) + "…");
+    var t = new Date(x.time);
+    if (!isNaN(t)) put("time", "as of " + t.toLocaleString("en-GB", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "UTC"}) + " UTC");
+  }).catch(function () {});
+})();
+</script>
+</body>
+</html>
